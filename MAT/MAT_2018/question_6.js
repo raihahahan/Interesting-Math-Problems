@@ -44,6 +44,7 @@ function subtract_rat(q1, q2) {
   return simplify(make_rat(new_numer, new_denom));
 }
 
+// Recursive
 function friendly_form(q) {
   if (numer(q) == 1) return [q];
   let r = greatest_rat_smaller_than(q);
@@ -56,15 +57,47 @@ function greatest_rat_smaller_than(q) {
   let d = denom(q);
   let frac = (i) => 1 / (2 + i);
 
-  if (n / d > 1 / 2) return make_rat(1, 2);
-
   function iter(i) {
     if (n / d - frac(i) > 0) return make_rat(1, 2 + i);
     return iter(i + 1);
   }
-  return iter(1);
+  return iter(0);
+}
+
+// Iterative
+function friendly_form_iter(q) {
+  let result = [];
+  do {
+    let r = greatest_rat_smaller_than_iter(q);
+    let q2 = subtract_rat(q, r);
+    result.push(r);
+    q = q2;
+  } while (numer(q) != 1);
+  result.push(q);
+  return result;
+}
+
+function greatest_rat_smaller_than_iter(q) {
+  let n = numer(q);
+  let d = denom(q);
+  let frac = (i) => 1 / (2 + i);
+  let j = 0;
+  while (n / d - frac(j) <= 0) {
+    j++;
+  }
+
+  return make_rat(1, 2 + j);
 }
 
 // TEST
-let q = make_rat(23, 701);
+let q = make_rat(422, 1233);
 console.log(friendly_form(q));
+console.log(friendly_form_iter(q));
+
+// OUTPUT
+// Recursive: Maximum call stack size exceeded
+// Iterative:
+/*
+[ [ 1, 3 ], [ 1, 113 ], [ 1, 13933 ], [ 1, 1941270957 ] ]
+[Done] exited with code=0 in 0.128 seconds
+*/
