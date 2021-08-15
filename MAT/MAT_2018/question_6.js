@@ -18,6 +18,20 @@ function simplify(q) {
   return make_rat(n / g, d / g);
 }
 
+function gcd(x, y) {
+  if (typeof x !== "number" || typeof y !== "number") return false;
+  x = Math.abs(x);
+  y = Math.abs(y);
+  while (y) {
+    var t = y;
+    y = x % y;
+    x = t;
+  }
+  // gcd(x, y) == gcd(y, x % y) ; x > y
+  // gcd(x, 0) == abs(x);
+  return x;
+}
+
 function subtract_rat(q1, q2) {
   let n1 = numer(q1),
     n2 = numer(q2),
@@ -54,17 +68,3 @@ function greatest_rat_smaller_than(q) {
 // TEST
 let q = make_rat(23, 701);
 console.log(friendly_form(q));
-
-function gcd(x, y) {
-  if (typeof x !== "number" || typeof y !== "number") return false;
-  x = Math.abs(x);
-  y = Math.abs(y);
-  while (y) {
-    var t = y;
-    y = x % y;
-    x = t;
-  }
-  // gcd(x, y) == gcd(y, x % y) ; x > y
-  // gcd(x, 0) == abs(x);
-  return x;
-}
