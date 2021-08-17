@@ -5,3 +5,5 @@ of reciprocals of distinct positive integers. For example, 4/5 = 1/2 + 1/4 + 1/2
 
 (iii) Suggest a procedure by which any rational q with 0 <q < 1 can be expressed in
 friendly form.
+
+The full question can be found here: [https://www.maths.ox.ac.uk/system/files/attachments/test18_1.pdf](https://www.maths.ox.ac.uk/system/files/attachments/test18_1.pdf)
