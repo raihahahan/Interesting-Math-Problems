@@ -96,8 +96,9 @@ function greatest_rat_smaller_than_iter(q) {
 
 // TEST
 let q = make_rat(4312321, 1223123131312);
-console.log(friendly_form(q));
+//console.log(friendly_form(q));
 console.log(friendly_form_iter(q));
+console.log(Math.ceil(11 / 3));
 
 // OUTPUT
 // Recursive: Maximum call stack size exceeded
