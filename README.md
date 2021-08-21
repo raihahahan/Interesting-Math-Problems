@@ -1,4 +1,4 @@
-# Math-Problems
+# Interesting-Math-Problems
 Math problems solved/proved using code.
 
 ## MAT (Oxford Math Admission Test)
