@@ -137,57 +137,118 @@ again, for this quesiton, j is inverted vertically.
 // From end point, look directly above
 let path_copy_iii = fillMaxValues(
   fillEmptyPath(posArr, returnEmptyPath([], 8))
-); // duplicate copy of 7) (ii)
-
-//console.log(path_copy_iii);
+).map((item) => {
+  // return an object with property max for the max value, and tag to indicate if that position is part of the path
+  return item.map((inner) => {
+    return {
+      max: inner,
+      tag: 0,
+      isMeet: false,
+    };
+  });
+}); // duplicate copy of 7) (ii)
 
 function fillPath(p, i, j) {
-  p[j][i] = "x";
-  while (i > 0 && j > 0) {
-    if (p[j][i - 1] == p[j - 1][i]) {
-      p[j][i - 1] = "x";
-      p[j - 1][i] = "x";
+  p[j][i].tag++;
+  while (i != 0) {
+    if (p[j][i - 1].max == p[j - 1][i].max) {
+      p[j][i - 1].tag++;
+      p[j - 1][i].tag++;
       fillPath(p, i - 1, j);
       fillPath(p, i, j - 1);
     }
-    if (max(p[j - 1][i], p[j][i - 1]) == p[j - 1][i]) {
-      p[j - 1][i] = "x";
+    if (max(p[j - 1][i].max, p[j][i - 1].max) == p[j - 1][i].max) {
+      p[j - 1][i].tag++;
       j--;
     } else {
-      p[j][i - 1] = "x";
+      p[j][i - 1].tag++;
       i--;
     }
   }
-  p[0][0] = "x";
 
-  for (let j = 0; j < p.length; j++) {
-    for (let i = 0; i < p.length; i++) {
-      if (p[j][i] != "x") p[j][i] = "o";
-    }
+  let m;
+  for (m = j; m >= 0; m--) {
+    if (p[m][0].tag == 0) continue;
+    if (p[m][0].tag > 0) break;
   }
+
+  while (m >= 0) {
+    p[m][0].tag++;
+    m--;
+  }
+
+  return p.map((item) => {
+    return item.map((inner) => {
+      return inner.tag > 0 ? "x" : "o";
+    });
+  });
 }
 
-//fillPath(path_copy_iii, 7, 7);
-console.log(path_copy_iii);
+// Test
+// console.log(fillPath(path_copy_iii, 7, 7));
+
+// Output: (all possible paths leading to max points upon reaching E)
 /*
 [
-  ["x", "x", "o", "o", "o", "o", "o", "o"],
-  ["x", "x", "o", "o", "o", "o", "o", "o"],
-  ["x", "x", "o", "o", "o", "o", "o", "o"],
-  ["x", "x", "o", "o", "o", "o", "o", "o"],
+  ["x", "o", "o", "o", "o", "o", "o", "o"],
+  ["x", "o", "o", "o", "o", "o", "o", "o"],
+  ["x", "o", "o", "o", "o", "o", "o", "o"],
+  ["x", "x", "x", "o", "o", "o", "o", "o"],
   ["x", "x", "x", "o", "o", "o", "o", "o"],
   ["x", "x", "x", "x", "o", "o", "o", "o"],
   ["o", "o", "x", "x", "x", "x", "o", "o"],
   ["o", "o", "o", "x", "x", "x", "x", "x"],
 ];
 */
+
+// 7) (iv) Compute the total number of possible paths that will result in the max value upon reaching E.
+
+//fillPath(path_copy_iii, 7, 7);
+//console.log(path_copy_iii);
+
 /*
-["x", "o", "o", "o", "o", "o", "o", "o"],
-["x", "o", "o", "o", "o", "o", "o", "o"],
-["x", "o", "o", "o", "o", "o", "o", "o"],
-["x", "x", "x", "o", "o", "o", "o", "o"],
-["x", "x", "x", "o", "o", "o", "o", "o"],
-["x", "x", "x", "x", "o", "o", "o", "o"],
-["o", "o", "x", "x", "x", "x", "o", "o"],
-["o", "o", "o", "x", "x", "x", "x", "x"],
+array of tag values
+[
+  [135, 000, 000, 000, 000, 000, 0, 0],
+  [135, 000, 000, 000, 000, 000, 0, 0],
+  [135, 000, 000, 000, 000, 000, 0, 0],
+  [255, 120, 090, 000, 000, 000, 0, 0],
+  [015, 105, 045, 000, 000, 000, 0, 0],
+  [045, 030, 015, 015, 000, 000, 0, 0],
+  [000, 000, 010, 005, 005, 003, 0, 0],
+  [000, 000, 000, 002, 002, 001, 1, 1],
+];
 */
+
+/*
+Y indicates the position where path meets
+[
+  ["x", "o", "o", "o", "o", "o", "o", "o"],
+  ["x", "o", "o", "o", "o", "o", "o", "o"],
+  ["x", "o", "o", "o", "o", "o", "o", "o"],
+  ["x", "Y", "x", "o", "o", "o", "o", "o"],
+  ["x", "Y", "x", "o", "o", "o", "o", "o"],
+  ["x", "x", "Y", "x", "o", "o", "o", "o"],
+  ["o", "o", "x", "Y", "Y", "x", "o", "o"],
+  ["o", "o", "o", "x", "x", "x", "x", "x"],
+];
+*/
+
+let result;
+function sumOfTag() {
+  let tags = [];
+  path_copy_iii.map((item) => {
+    return item.map((inner) => {
+      tags.push(inner.tag);
+    });
+  });
+  result = tags.reduce((accumulate, item) => {
+    return accumulate + item;
+  }, 0);
+}
+sumOfTag();
+console.log(result);
+
+function numOfPaths(p, i, j, result) {
+  while (i != 0) {}
+}
