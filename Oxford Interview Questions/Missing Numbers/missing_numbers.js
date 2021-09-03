@@ -1,4 +1,13 @@
 // in a sorted sequence of slightly less than n numbers, define a procedure to search for the missing numbers in the sequence
+function missing_numbers(arr, max) {
+    let len = arr.length,
+        result = [];
+    for (let i = 0; i < max; i++) {
+        if (!binary_search(arr, i, len)) result.push(i);
+    }
+
+    return result;
+}
 
 function binary_search(arr, toSearch, len) {
     let midIndex = Math.ceil(len / 2) - 1;
@@ -22,16 +31,6 @@ function binary_search(arr, toSearch, len) {
     return false;
 }
 
-function missing_numbers(arr, max) {
-    let len = arr.length,
-        result = [];
-    for (let i = 0; i < max; i++) {
-        if (!binary_search(arr, i, len)) result.push(i);
-    }
-
-    return result;
-}
-
 function truncateArr(arr, startIndex, endIndex) {
     let result = [];
     for (let i = startIndex; i <= endIndex; i++) {
@@ -40,7 +39,7 @@ function truncateArr(arr, startIndex, endIndex) {
     return result;
 }   
 
-let array = [3,4, 5],
+let array = [3,4, 5, 12, 343, 1212, 343, 1212, 4,12, 1334],
     len = array.length;
 let r = missing_numbers(array, 1000000);
 
