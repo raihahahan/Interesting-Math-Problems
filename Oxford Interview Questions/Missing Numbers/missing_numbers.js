@@ -1,46 +1,46 @@
 // in a sorted sequence of slightly less than n numbers, define a procedure to search for the missing numbers in the sequence
 function missing_numbers(arr, max) {
-    let len = arr.length,
-        result = [];
-    for (let i = 0; i < max; i++) {
-        if (!binary_search(arr, i, len)) result.push(i);
-    }
+  let len = arr.length,
+    result = [];
+  for (let i = 0; i < max; i++) {
+    if (!binary_search(arr, i, len)) result.push(i);
+  }
 
-    return result;
+  return result;
 }
 
 function binary_search(arr, toSearch, len) {
-    let midIndex = Math.ceil(len / 2) - 1;
+  let midIndex = Math.ceil(len / 2) - 1;
 
-    if (len == 1 && arr[midIndex] != toSearch) return false;
+  if (len == 1 && arr[midIndex] != toSearch) return false;
 
-    if (arr[midIndex] == toSearch) return true;
+  if (arr[midIndex] == toSearch) return true;
 
-    if (arr[midIndex] > toSearch) {
-        let truncArr = truncateArr(arr, 0, midIndex),
-            newLen = truncArr.length;
-        return binary_search(truncArr, toSearch, newLen);
-    }
+  if (arr[midIndex] > toSearch) {
+    let truncArr = truncateArr(arr, 0, midIndex),
+      newLen = truncArr.length;
+    return binary_search(truncArr, toSearch, newLen);
+  }
 
-    if (arr[midIndex] < toSearch) {
-        let truncArr = truncateArr(arr, midIndex+1, len-1),
-            newLen = truncArr.length;
-        return binary_search(truncArr, toSearch, newLen);
-    }
+  if (arr[midIndex] < toSearch) {
+    let truncArr = truncateArr(arr, midIndex + 1, len - 1),
+      newLen = truncArr.length;
+    return binary_search(truncArr, toSearch, newLen);
+  }
 
-    return false;
+  return false;
 }
 
 function truncateArr(arr, startIndex, endIndex) {
-    let result = [];
-    for (let i = startIndex; i <= endIndex; i++) {
-        result.push(arr[i]);
-    }
-    return result;
-}   
+  let result = [];
+  for (let i = startIndex; i <= endIndex; i++) {
+    result.push(arr[i]);
+  }
+  return result;
+}
 
-let array = [3,4, 5, 12, 343, 1212, 343, 1212, 4,12, 1334],
-    len = array.length;
+let array = [3, 4, 5, 12, 343, 1212, 343, 1212, 4, 12, 1334],
+  len = array.length;
 let r = missing_numbers(array, 1000000);
 
 console.log(r);
