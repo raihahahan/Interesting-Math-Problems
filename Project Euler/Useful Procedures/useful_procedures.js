@@ -1,6 +1,18 @@
 // will be implementing data structure as linked list
 // will mostly use iteration instead of recursion
 
+export function cons(a, b) {
+  return { value: a, next: b };
+}
+
+export function car(pair) {
+  return pair.value;
+}
+
+export function cdr(pair) {
+  return pair.next;
+}
+
 export function make_list(...args) {
   // automatically generates a singly-linked list
   let len = args.length;
@@ -8,6 +20,15 @@ export function make_list(...args) {
   let b = { value: args[len - 2], next: a }; // 2nd last item of list
   for (; len > 2; a = b, b = { value: args[len - 3], next: a }, len--); // keep going down the list. the next of b is the previous b value
   return b;
+}
+
+export function make_list_recur(...args) {
+  let l = args.length;
+  function recur(count) {
+    if (count == l) return null;
+    return cons(args[count], recur(count + 1));
+  }
+  return recur(0);
 }
 
 export function print_list(list) {
@@ -38,18 +59,6 @@ export function enumerate(n) {
   let b = { value: n - 2, next: a }; // 2nd last item of list
   for (; n > 3; a = b, b = { value: n - 3, next: a }, n--); // keep going down the list. the next of b is the previous b value
   return b;
-}
-
-export function cons(a, b) {
-  return { value: a, next: b };
-}
-
-export function car(pair) {
-  return pair.value;
-}
-
-export function cdr(pair) {
-  return pair.next;
 }
 
 export function map_list(list, p) {
